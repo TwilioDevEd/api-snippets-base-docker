@@ -1,4 +1,4 @@
-FROM joliveros/api-snippets-base:ruby
+FROM twiliodeved/api-snippets-base:ruby
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 

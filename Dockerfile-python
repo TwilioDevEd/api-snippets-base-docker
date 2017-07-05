@@ -1,4 +1,4 @@
-FROM joliveros/api-snippets-base:node
+FROM twiliodeved/api-snippets-base:node
 
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH

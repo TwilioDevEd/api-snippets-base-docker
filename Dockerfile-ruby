@@ -1,4 +1,4 @@
-FROM joliveros/api-snippets-base:java
+FROM twiliodeved/api-snippets-base:java
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
