@@ -1,4 +1,4 @@
-FROM twiliodeved/api-snippets:python
+FROM joliveros/api-snippets-base:java
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
@@ -97,6 +97,15 @@ ENV PATH $BUNDLE_BIN:$PATH
 RUN mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
 	&& chmod 777 "$GEM_HOME" "$BUNDLE_BIN"
 
-RUN /bin/bash -l -c "unset GEM_HOME && curl -sSL https://get.rvm.io | bash -s stable --ruby"
-RUN /bin/bash -l -c "rvm requirements"
-RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
+
+RUN unset GEM_HOME && curl -sSL https://raw.githubusercontent.com/wayneeseguin/rvm/stable/binscripts/rvm-installer | bash -s stable --ruby=2.4.1
+RUN mkdir /usr/local/rvm/src/rvm/rubies
+RUN mkdir /usr/local/rvm/src/rvm/archives
+RUN mkdir /usr/local/rvm/src/rvm/src
+RUN mkdir /usr/local/rvm/src/rvm/gems
+RUN echo 'source /usr/local/rvm/src/rvm/scripts/rvm' > ~/.bashrc
+ENV PATH $PATH:/usr/local/rvm/src/rvm/bin
+RUN source /home/dev/.bashrc && rvm requirements && rvm install ruby-2.4.1
+RUN rvm alias create default ruby-2.4.1
+RUN gem install bundler --no-ri --no-rdoc
+RUN echo 'gem: --no-ri --no-rdoc' > ~/.gemrc

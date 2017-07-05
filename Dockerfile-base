@@ -1,29 +1,17 @@
-FROM twiliodeved/api-snippets:java
+FROM joliveros/api-snippets-base:ruby
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 ENV RUN_ENV=test
-ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 ENV FAKE_CERT_PATH=/twilio-api-faker/keystore/twilio_fake.pem
-ENV GRADLE_OPTS="-Dorg.gradle.daemon=true"
-
-RUN mkdir /usr/local/rvm/src/rvm/rubies
-RUN mkdir /usr/local/rvm/src/rvm/archives
-RUN mkdir /usr/local/rvm/src/rvm/src
-
-RUN ["/bin/bash", "-l", "-c", "echo 'source /usr/local/rvm/src/rvm/scripts/rvm' > ~/.bashrc"]
-RUN ["/bin/bash", "-l", "-c", "source ~/.bashrc"]
-RUN ["/bin/bash", "-l", "-c", "rvm requirements"]
-RUN ["/bin/bash", "-l", "-c", "rvm install ruby-2.4"]
-RUN ["/bin/bash", "-l", "-c", "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"]
-RUN ["/bin/bash", "-l", "-c", "gem install bundler --no-ri --no-rdoc"]
 
 RUN git clone https://github.com/TwilioDevEd/twilio-api-faker.git && \
     cp /twilio-api-faker/keystore/twilio_fake.pem /usr/local/share/ca-certificates/twilio_fake.crt
 
-RUN update-ca-certificates
+RUN cp $FAKE_CERT_PATH /usr/local/share/ca-certificates/twilio_fake.crt && \
+    update-ca-certificates
 
-RUN gem install json colorize nokogiri
+RUN /bin/bash -l -c "gem install json colorize nokogiri"
 
 RUN pip install virtualenvwrapper
 
