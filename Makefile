@@ -18,7 +18,7 @@ build_ruby:
 		docker build . -f Dockerfile-ruby -t $(USERNAME)/api-snippets-base:ruby --no-cache
 
 build_base:
-		docker build . -f Dockerfile-base -t $(USERNAME)/api-snippets-base --no-cache
+		docker build . -t $(USERNAME)/api-snippets-base --no-cache
 
 build:
 		make build_node && make build_python  && make build_mono && \

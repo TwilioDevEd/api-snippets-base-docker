@@ -3,7 +3,7 @@ Base Docker Image for api-snippets repository
 
 # Build it
   ```bash
-  make build_base
+  make build
   ```
 
 # Push to hub.docker.com
