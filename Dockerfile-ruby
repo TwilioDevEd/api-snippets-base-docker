@@ -48,6 +48,7 @@ RUN set -ex \
 	' \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends $buildDeps \
+	&& curl -sSL https://rvm.io/mpapis.asc | gpg --import - \
 	&& rm -rf /var/lib/apt/lists/* \
 	\
 	&& wget -O ruby.tar.xz "https://cache.ruby-lang.org/pub/ruby/${RUBY_MAJOR%-rc}/ruby-$RUBY_VERSION.tar.xz" \
@@ -100,6 +101,7 @@ RUN mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
 
 RUN unset GEM_HOME && curl -sSL https://raw.githubusercontent.com/wayneeseguin/rvm/stable/binscripts/rvm-installer | bash -s stable --ruby=2.4.1
 RUN mkdir /usr/local/rvm/src/rvm/rubies
+RUN mkdir /usr/local/rvm/src/rvm/user && mkdir /usr/local/rvm/src/rvm/user/installs
 RUN mkdir /usr/local/rvm/src/rvm/archives
 RUN mkdir /usr/local/rvm/src/rvm/src
 RUN mkdir /usr/local/rvm/src/rvm/gems
