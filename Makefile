@@ -45,6 +45,9 @@ define ruby_deps
 	gem install bundler json colorize nokogiri rubocop
 endef
 
+build_api_faker:
+	cd /twilio-api-faker && gradle jar && cd /api-snippets-base
+
 install_dependencies:
 	$(call python_deps)
 	$(call ruby_deps)

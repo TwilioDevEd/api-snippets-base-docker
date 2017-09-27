@@ -14,7 +14,7 @@ RUN mkdir /.virtualenvs
 
 ENV WORKON_HOME /.virtualenvs
 
-RUN /bin/bash -l -c "source /usr/local/bin/virtualenvwrapper.sh"
+RUN echo 'source /usr/local/bin/virtualenvwrapper.sh' > ~/.bashrc
 
 RUN mkdir /src && git clone https://github.com/TwilioDevEd/api-snippets.git /src
 
@@ -23,3 +23,5 @@ COPY ./ /api-snippets-base
 WORKDIR /api-snippets-base
 
 RUN /bin/bash --login -c "make install_dependencies"
+
+RUN make build_api_faker
