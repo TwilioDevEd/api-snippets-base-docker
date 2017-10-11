@@ -1,0 +1,19 @@
+sudo: required
+dist: trusty
+
+cache:
+  apt: true
+
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::8}
+
+script:
+  - sudo make install
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=twiliodeved/api-snippets-base
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - make build
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO

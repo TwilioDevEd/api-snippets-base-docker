@@ -18,11 +18,22 @@ build_ruby:
 		docker build . -f Dockerfile-ruby -t $(USERNAME)/api-snippets-base:ruby --no-cache --squash
 
 build_base:
-		docker build . -t $(USERNAME)/api-snippets-base --no-cache --squash
+		docker build . -t $(REPO):$(COMMIT) --no-cache --squash
+
 
 build:
-		make build_node && make build_python  && make build_mono && \
-		make build_java && make build_ruby && make build_base
+		@echo "### build node image ###"
+		@make build_node
+		@echo "### build python image ###"
+		@make build_python
+		@echo "### build mono image ###"
+		@make build_mono
+		@echo "### build java image ###"
+		@make build_java
+		@echo "### build ruby image ###"
+		@make build_ruby
+		@echo "### build base image ###"
+		@make build_base
 
 FAKE_CERT = /usr/local/share/ca-certificates/twilio_fake.crt
 
@@ -55,3 +66,17 @@ install_dependencies:
 	cd /src && ruby tools/snippet-testing/model/dependency.rb && cd /api-snippets-base
 	$(call append_certs)
 	$(call save_dependencies)
+
+define enabled_docker_experimental_features
+	cp ./daemon.json /etc/docker/daemon.json
+endef
+
+install:
+	@curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - \
+	&& sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu trusty stable" \
+	&& sudo apt-get update \
+	&& apt-cache policy docker-ce \
+	&& sudo apt-get install -y docker-ce \
+	&& $(call enabled_docker_experimental_features) \
+	&& sudo service docker restart \
+	&& sleep 10
