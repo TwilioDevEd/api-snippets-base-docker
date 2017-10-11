@@ -10,6 +10,9 @@ RUN git clone https://github.com/TwilioDevEd/twilio-api-faker.git /twilio-api-fa
 
 RUN pip install virtualenvwrapper
 
+RUN composer global require overtrue/phplint && \
+    ln -s /root/.composer/vendor/bin/phplint /usr/local/bin/phplint
+
 RUN mkdir /.virtualenvs
 
 ENV WORKON_HOME /.virtualenvs

@@ -34,6 +34,7 @@ endef
 
 define save_dependencies
 	cp -r /src/tools/dependencies /dependencies
+	find /dependencies -name .eslintrc | xargs rm
 endef
 
 define python_deps

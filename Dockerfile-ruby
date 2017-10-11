@@ -109,5 +109,5 @@ RUN echo 'source /usr/local/rvm/src/rvm/scripts/rvm' > ~/.bashrc
 ENV PATH $PATH:/usr/local/rvm/src/rvm/bin
 RUN source /home/dev/.bashrc && rvm requirements && rvm install ruby-2.4.1
 RUN rvm alias create default ruby-2.4.1
-RUN gem install bundler --no-ri --no-rdoc
+RUN gem install bundler rubocop --no-ri --no-rdoc
 RUN echo 'gem: --no-ri --no-rdoc' > ~/.gemrc
