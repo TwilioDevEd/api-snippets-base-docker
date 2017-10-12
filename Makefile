@@ -1,6 +1,16 @@
 .PHONY: build_node
 
 USERNAME=twiliodeved
+REPO=twiliodeved/api-snippets-base
+
+define get_image_tag
+	if [ -z "$$COMMIT" ]; then \
+		IMAGE_TAG="latest"; \
+	else \
+		IMAGE_TAG=$$COMMIT; \
+	fi
+endef
+
 
 build_node:
 		docker build . -f Dockerfile-node -t $(USERNAME)/api-snippets-base:node --no-cache --squash
@@ -18,8 +28,8 @@ build_ruby:
 		docker build . -f Dockerfile-ruby -t $(USERNAME)/api-snippets-base:ruby --no-cache --squash
 
 build_base:
-		docker build . -t $(REPO):$(COMMIT) --no-cache --squash
-
+		$(call get_image_tag); \
+		docker build . -t $(REPO):$$IMAGE_TAG --no-cache --squash
 
 build:
 		@echo "### build node image ###"
