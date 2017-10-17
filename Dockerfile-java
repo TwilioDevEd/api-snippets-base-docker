@@ -1,4 +1,4 @@
-FROM twiliodeved/api-snippets-base:mono
+FROM twiliodeved/api-snippets-base:dotnet
 
 ENV DEBIAN_FRONTEND noninteractive
 

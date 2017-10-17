@@ -21,6 +21,9 @@ build_python:
 build_mono:
 		docker build . -f Dockerfile-mono -t $(USERNAME)/api-snippets-base:mono --no-cache --squash
 
+build_dotnet:
+		docker build . -f Dockerfile-dotnet -t $(USERNAME)/api-snippets-base:dotnet --no-cache --squash
+
 build_java:
 		docker build . -f Dockerfile-java -t $(USERNAME)/api-snippets-base:java --no-cache --squash
 
@@ -38,6 +41,8 @@ build:
 		@make build_python
 		@echo "### build mono image ###"
 		@make build_mono
+		@echo "### build dotnet image ###"
+		@make build_dotnet
 		@echo "### build java image ###"
 		@make build_java
 		@echo "### build ruby image ###"
